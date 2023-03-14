@@ -1,4 +1,4 @@
-package com.example.sample_mobiletest
+package com.example.sample_mobiletest.utils
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
+import com.example.sample_mobiletest.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -16,11 +17,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -87,11 +84,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     fun getData() {
 
-        val retrofit = Retrofit.Builder().baseUrl("https://randomuser.me/").addConverterFactory(GsonConverterFactory.create()).build()
 
-        val apiService = retrofit.create(WebServices::class.java)
 
-        apiService.getrandomuser().enqueue(object : Callback<GeneralResults>{
+
+        {
             override fun onResponse(call: Call<GeneralResults>, response: Response<GeneralResults>) {
                  Toast.makeText(this@MapsActivity, "OK", Toast.LENGTH_SHORT).show()
 
@@ -118,7 +114,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             override fun onFailure(call: Call<GeneralResults>, t: Throwable) {
-                Toast.makeText(this@MapsActivity, "Mamaste", Toast.LENGTH_SHORT).show()
+
+                Toast.makeText(this@MapsActivity, "API Call Failed", Toast.LENGTH_SHORT).show()
             }
 
         })
@@ -134,43 +131,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         layoutMap.moveCamera(CameraUpdateFactory.newLatLng(newlocation))
     }
 
-    interface WebServices{
-        @GET("/api/")
-        fun getrandomuser(): Call<GeneralResults>
-    }
 
-    data class GeneralResults (@SerializedName("results") val results: List<Result>)
-
-    data class  Result (@SerializedName("name") val genname: Name,
-                        @SerializedName("gender") val gender: String,
-                        @SerializedName("location") val location: GeneralLocation,
-                        @SerializedName("dob") val age: Dob,
-                        @SerializedName("email") val email: String,
-                        @SerializedName("cell") val cell: String,
-                        @SerializedName("picture") val image1: Pic)
-
-    data class Name (@SerializedName("title") val title: String,
-                     @SerializedName("first") val name: String,
-                     @SerializedName("last") val lastname: String)
-
-
-    data class GeneralLocation (@SerializedName ("street") val street: Street,
-                                @SerializedName("city") val city: String,
-                                @SerializedName("state") val state: String,
-                                @SerializedName("country") val country: String,
-                                @SerializedName("postcode") val zipcode: Int,
-                                @SerializedName("coordinates")val cordinates: Coordinates,
-                                )
-
-    data class Coordinates(@SerializedName ("latitude") val latitude: String,
-                           @SerializedName ("longitude") val longitude: String)
-
-    data class Street (@SerializedName ("number") val houseNumber: Int,
-                       @SerializedName ("name") val street: String)
-
-    data class Dob (@SerializedName("age") val age: Int)
-
-    data class Pic (@SerializedName ("medium") val image: String)
 
 
 }

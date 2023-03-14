@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Sample_MobileTest"
         tools:targetApi="31">
         <activity
-            android:name=".MapsActivity"
+            android:name=".utils.MapsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

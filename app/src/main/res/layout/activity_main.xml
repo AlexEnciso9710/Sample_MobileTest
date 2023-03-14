@@ -5,7 +5,7 @@
     android:name="SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapsActivity"
+    tools:context=".utils.MapsActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="19dp">
 
@@ -19,7 +19,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MapsActivity" />
+        tools:context=".utils.MapsActivity" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.cardview.widget.CardView
