@@ -9,6 +9,7 @@ import com.example.sample_mobiletest.domain.model.UserInfo
 import com.example.sample_mobiletest.domain.model.toInfoUser
 import com.example.sample_mobiletest.ui.model.InfoUser
 import com.example.sample_mobiletest.ui.model.MapsUiModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -20,9 +21,9 @@ class MapsViewModel(private val getRandomUserUseCase: GetRandomUserUseCase) : Vi
 
     fun getUser() {
         emitMapsUiState(showRefresh = true)
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = getRandomUserUseCase.getRandomUser()
-            withContext(coroutineContext) {
+            withContext(Dispatchers.Main) {
                 when(result) {
                     is com.example.sample_mobiletest.utils.Result.Success -> getUserSuccess(result.data)
                     is com.example.sample_mobiletest.utils.Result.Error -> getUserError(result.exception)

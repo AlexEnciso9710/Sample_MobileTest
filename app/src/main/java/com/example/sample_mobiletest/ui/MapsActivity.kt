@@ -45,6 +45,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         initMapFragment()
         initRefreshLayout()
         initObservers()
+
+        getUser()
     }
 
     private fun bindView() {

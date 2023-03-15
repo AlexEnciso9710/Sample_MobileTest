@@ -1,38 +1,34 @@
 package com.example.sample_mobiletest.datasource
 
-import com.example.sample_mobiletest.domain.model.ResponseApi
-import com.example.sample_mobiletest.domain.model.UserInfo
 import com.example.sample_mobiletest.utils.Result.Error
 import com.example.sample_mobiletest.utils.Result.Success
 import com.example.sample_mobiletest.utils.WebServices
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RandomUserRemoteDataSource {
 
-    fun getRandomUser(): com.example.sample_mobiletest.utils.Result<UserInfo> {
-        var userInfo: com.example.sample_mobiletest.utils.Result<UserInfo>? = null
-        try {
-            val retrofit = Retrofit.Builder().baseUrl("https://randomuser.me/").addConverterFactory(GsonConverterFactory.create()).build()
-            val webServices: WebServices = retrofit.create(WebServices::class.java)
+    suspend fun getRandomUser() = try {
+        val retrofit = Retrofit.Builder().baseUrl("https://randomuser.me/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(getOkHttpClient())
+                .build()
+        val webServices: WebServices = retrofit.create(WebServices::class.java)
 
-            webServices.getRandomUser().enqueue(object : Callback<ResponseApi> {
-                override fun onResponse(call: Call<ResponseApi>, response: Response<ResponseApi>) {
-                    userInfo = if (response.isSuccessful) Success(response.body()?.userInfo?.get(0)!!)
-                    else Error(Exception(response.message()))
-                }
+        val result = webServices.getRandomUser()
+        Success(result.userInfo[0])
+    } catch (exception: Exception) {
+        Error(exception)
+    }
 
-                override fun onFailure(call: Call<ResponseApi>, throwable: Throwable) {
-                    userInfo = Error(Exception(throwable.message))
-                }
-            })
-        } catch (exception: Exception) {
-            userInfo = Error(Exception(exception.message))
-        }
+    private fun getOkHttpClient() = OkHttpClient.Builder().apply {
+        addInterceptor(getHttpInterceptor())
 
-        return userInfo as com.example.sample_mobiletest.utils.Result<UserInfo>
+    }.build()
+
+    private fun getHttpInterceptor() = HttpLoggingInterceptor().apply {
+        setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 }

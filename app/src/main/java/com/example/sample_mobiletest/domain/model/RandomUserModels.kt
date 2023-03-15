@@ -24,9 +24,8 @@ data class Location(
         @SerializedName("city") val city: String,
         @SerializedName("state") val state: String,
         @SerializedName("country") val country: String,
-        @SerializedName("postcode") val zipcode: Int,
-        @SerializedName("coordinates") val cordinates: Coordinates,
-)
+        @SerializedName("postcode") val zipcode: String,
+        @SerializedName("coordinates") val coordinates: Coordinates, )
 
 data class Coordinates(@SerializedName("latitude") val latitude: String,
                        @SerializedName("longitude") val longitude: String)
