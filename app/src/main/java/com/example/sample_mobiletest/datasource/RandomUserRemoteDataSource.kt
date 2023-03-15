@@ -25,7 +25,6 @@ class RandomUserRemoteDataSource {
 
     private fun getOkHttpClient() = OkHttpClient.Builder().apply {
         addInterceptor(getHttpInterceptor())
-
     }.build()
 
     private fun getHttpInterceptor() = HttpLoggingInterceptor().apply {

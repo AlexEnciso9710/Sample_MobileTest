@@ -46,7 +46,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         initRefreshLayout()
         initObservers()
 
-        getUser()
     }
 
     private fun bindView() {
@@ -90,16 +89,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun getInfoUserSuccess(infoUser: InfoUser) = infoUser.run {
         nameEditText.setText(name)
-/*        lastnameEditText.setText(response.body()?.results?.get(0)?.genname?.lastname)
-        streetEditText.setText(response.body()?.results?.get(0)?.location?.street?.street)
-        numberEditText.setText(response.body()?.results?.get(0)?.location?.street?.houseNumber.toString())
-        countryEditText.setText(response.body()?.results?.get(0)?.location?.country)
-        stateEditText.setText(response.body()?.results?.get(0)?.location?.state)
-        zipcodeEditText.setText(response.body()?.results?.get(0)?.location?.zipcode.toString())
-        ageEditText.setText(response.body()?.results?.get(0)?.age?.age.toString())
-        genderEditText.setText(response.body()?.results?.get(0)?.gender)
-        emailEditText.setText(response.body()?.results?.get(0)?.email)
-        phoneEditText.setText(response.body()?.results?.get(0)?.cell)*/
     }
 
     private fun getInfoUserError(exception: Exception) = Toast.makeText(this, exception.message, Toast.LENGTH_SHORT).show()
